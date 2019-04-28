@@ -5,15 +5,15 @@ exports.server = {
   }
 }
 exports.sequelize = {
-  database: 'mybolg',
+  database: 'myblog',
   username: 'postgres',
   password: '123456',
   host: '127.0.0.1',
   dialect: 'postgres'
 }
 exports.session = {
-  secret: 'mybolg',
-  key: 'mybolg',
+  secret: 'myblog',
+  key: 'myblog',
   maxAge: 2592000000
 }
 

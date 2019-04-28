@@ -1,13 +1,13 @@
 const fs = require('fs')
-const path = require('path')
+// const path = require('path')
 const {
   createUser,
   queryAll
 } = require('../service/membership/user')
-const {
-  createPost,
-  queryAllPost
-} = require('../service/post/Process')
+// const {
+//   createPost,
+//   queryAllPost
+// } = require('../service/post/Process')
 
 exports.createNewUser = (req, res, next) => {
   let {
@@ -31,9 +31,10 @@ exports.createNew = (req, res, next) => {
     gender,
     bio,
     password,
-    repassword
-  } = req.fields
-  const avatar = req.files.avatar.path.split(path.sep).pop()
+    repassword,
+    avatar
+  } = req.body
+  // const avatar = req.files.avatar.path.split(path.sep).pop()
 
   // 校验参数
   try {
@@ -46,18 +47,18 @@ exports.createNew = (req, res, next) => {
     if (!(bio.length >= 1 && bio.length <= 30)) {
       throw new Error('个人简介请限制在 1-30 个字符')
     }
-    if (!req.files.avatar.name) {
-      throw new Error('缺少头像')
-    }
-    if (password.length < 6) {
-      throw new Error('密码至少 6 个字符')
-    }
+    // if (!req.files.avatar.name) {
+    //   throw new Error('缺少头像')
+    // }
+    // if (password.length < 6) {
+    //   throw new Error('密码至少 6 个字符')
+    // }
     if (password !== repassword) {
       throw new Error('两次输入密码不一致')
     }
   } catch (e) {
     // 注册失败，异步删除上传的头像
-    fs.unlink(req.files.avatar.path)
+    // fs.unlink(req.files.avatar.path)
     req.flash('error', e.message)
     return res.redirect('/signup')
   }

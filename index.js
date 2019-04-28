@@ -8,6 +8,7 @@ const routes = require('./app/routes/index')
 const pkg = require('./package')
 const morgan = require('morgan')
 const bodyparser = require('body-parser')
+const dbCtx = require('./database/dbCtx')
 
 const app = express()
 // 日志
@@ -66,6 +67,20 @@ app.use(function (err, req, res, next) {
 })
 
 // 监听端口，启动程序
-app.listen(config.server.http.port, function () {
+app.listen(config.server.http.port, () => {
   console.log(`${pkg.name} listening on port ${config.server.http.port}`)
+  // 同步数据库
+  if (process.env.NODE_ENV === 'production') {
+    dbCtx.authenticate().then(() => {
+      console.log('已正常连接数据库')
+    }).catch(err => {
+      console.log('无法连接数据库，故障描述：', err)
+    })
+  } else if (process.env.NODE_ENV === 'development') {
+    dbCtx.sync({ force: false }).then(_ => {
+      console.log('已同步更新数据库结构')
+    }).catch(err => {
+      console.log('无法同步更新数据库结构，故障描述：', err)
+    })
+  }
 })

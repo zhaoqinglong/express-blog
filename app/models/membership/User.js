@@ -28,10 +28,9 @@ const User = dbCtx.define('User', {
   paranoid: true
 })
 // User.sync({
-//   force: true
+//   force: false
 // }).then(() => {
-//   // Table created
-//   console.log('Table created');
-// });
+//   console.log('Table created')
+// })
 
 module.exports = User
