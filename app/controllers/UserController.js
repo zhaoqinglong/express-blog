@@ -1,31 +1,9 @@
 const fs = require('fs')
 // const path = require('path')
-const {
-  createUser,
-  queryAll
-} = require('../service/membership/user')
-// const {
-//   createPost,
-//   queryAllPost
-// } = require('../service/post/Process')
-
-exports.createNewUser = (req, res, next) => {
-  let {
-    name,
-    password,
-    gender,
-    bio,
-    avatar
-  } = { ...req.fields }
-  createUser(name, password, gender, bio, avatar).then(user => {
-    res.status(200).json(`{user:${user}}`)
-  }).catch(err => {
-    res.status(500).json(`{err:${err}}`)
-  })
-}
+const { createUser, queryAll } = require('../service/membership/user')
 
 // 创建新用户
-exports.createNew = (req, res, next) => {
+exports.addUser = (req, res, next) => {
   const {
     name,
     gender,
@@ -74,7 +52,7 @@ exports.createNew = (req, res, next) => {
     user1.id = user.id
     req.session.user = user1
     req.flash('success', '注册成功')
-    res.redirect('/posts')
+    // res.redirect('/posts')
     // res.status(200).json(`{user:${user}}`);
   }).catch(err => {
     // 注册失败，异步删除上传的头像
